@@ -9,8 +9,8 @@ function Footer() {
     return (
         <div className='footer-container'>
 
-            <div className='text-footer'>
-                Developed By <a>Bharti</a>
+            <div className='text-footer text-center mb-3'>
+                Developed By <a>Vaibhavi</a>
             </div>
             <div>
                 <a href='https://github.com/vaishnavihole/balance-sheet' target="_blank">

@@ -12,16 +12,20 @@ function ContactCard() {
         <p className="back-color welcome-line">
           WE WELCOME YOU , VISIT US ANYTIME
         </p>
-
-        <input type="text" className="input-1" placeholder="Your Name" />
-        <input type="mob" className="input-1" placeholder="Your Phone" />
-        <input type="email" className="input-2" placeholder="Your Email" />
-        <input type="text" className="input-3" placeholder="Message" />
+         <form 
+         action="https://formspree.io/f/xjvnwgel"
+         method="POST"
+         >
+          
+        <input type="text" className="input-1" name="username" required placeholder="Your Name" />
+        <input type="email" className="input-2" name="Email" autoComplete="off" required placeholder="Your Email" />
+        <input type="text" className="input-3" name="message" required autoComplete="off" placeholder="Message" />
         <br />
 
-        <button type="button" className="msg-btn">
+        <button type="submit" className="msg-btn">
           Send Message{" "}
         </button>
+         </form>
       </div>
 
       <Footer />

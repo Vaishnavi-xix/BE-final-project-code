@@ -1,75 +1,63 @@
 
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
+import showToast from "crunchy-toast";
 import { Link } from "react-router-dom";
+import Logo from "./logo.png";
 
-import { useEffect, useState } from "react";
-const Navbar = () => {
+function Navbar() {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const storedUser = (JSON.parse(localStorage.getItem("user") || "{}"));
-    setUser(storedUser);
+    const storageUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setUser(storageUser);
   }, []);
 
   const logout = () => {
-    localStorage.removeItem('user');
-    window.location.href = '/login';
-   
-  }
-
+    localStorage.removeItem("user");
+    window.location.href = "/login";
+    showToast("Logout Succesfully..!", "success", 4000);
+  };
 
   return (
-    <div className="position-sticky top-0 navbar-container ">
-      <nav className="navbar navbar-expand-lg p-3 fs-4 nav1 ">
-        <div className="container-fluid">
-          <Link className="navbar-brand text-light logoimg " to="/">
-            <span className="logo"> 🗑️ E-WASTE</span>
-          </Link>
+    <div className="navbar">
+      <Link to="/" className="navbar-title fw-bold fs-2">
+        🗑️ E-WASTE
+      </Link>
 
+      <div className="navbar-links-container">
+        <Link to="/" className="navbar-link mx-4 fw-semibold">
+          {" "}
+          E-Waste Units{" "}
+        </Link>
+
+        {/* <Link to='/signup'  className="navbar-link"> Signup </Link> */}
+
+        {user?.name ? (
           <button
-            className="navbar-toggler bg-light "
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+            className="navbar-link log-outbtn mx-4 px-4"
+            onClick={logout}
           >
-            <span className="navbar-toggler-icon"></span>
+            {" "}
+            Logout{" "}
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-lg-auto">
-              <li className="nav-item">
-                <Link
-                  className="nav-link text-dark "
-                  aria-current="page"
-                  to="/"
-                >
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item ">
-                <Link className="nav-link text-dark" to="/mylinks">
-                  customer
-                </Link>
-              </li>
-            </ul>
-          <div className="logout-btn">
-            {
-          user?.name ? <button type='button' className="navbar-logout-btn" onClick={logout}> Logout </button> : <span><Link to='/signup' className="navbar-link"> Signup </Link> <Link to='/login' className="navbar-link">login</Link> </span>
-          }
+        ) : (
+          <span>
+            <Link to="/signup" className="navbar-link">
+              {" "}
+              Signup{" "}
+            </Link>{" "}
+            <Link to="/login" className="navbar-link">
+              login
+            </Link>{" "}
+          </span>
+        )}
 
-       hello,{user?.name || "user"}
-       </div>
-          </div>
-        </div>
-        <div>
-         
-          
-         
-        </div>
-      </nav>
+        <span className="mx-2 fs-5 fw-semibold ">👋 Hey {user?.name || "User"} !</span>
+      </div>
     </div>
   );
-};
+}
+
 export default Navbar;

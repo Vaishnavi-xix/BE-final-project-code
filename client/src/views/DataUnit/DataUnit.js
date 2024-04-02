@@ -43,7 +43,7 @@ function DataUnit() {
           </p>
         </div>
 
-        <div className="destruction-text mx-5">
+        <div className="destruction-text  m-5">
           <span className="fs-2 fw-bold ">
             {" "}
             Secure Data Destruction Services{" "}
@@ -69,11 +69,11 @@ function DataUnit() {
           <br />
           for your business
           <p>
-            <button type="button" className="btn outline-btn fw-bold  my-3">
+            {/* <button type="button" className="btn outline-btn fw-bold  my-3">
               Destruction
-            </button>
-            <button type="button" className="btn outline-btn mx-3">
-              <Link to="/certificate" className="text-none  fw-bold">Cleck Here To Generate Certificate</Link>
+            </button> */}
+            <button type="button" className=" btn-certificate ">
+              <Link to="/certificate" className="w-5 mb-5 text-none text-light  fw-bold">Click Here To Generate Certificate</Link>
             </button>
           </p>
         </div>

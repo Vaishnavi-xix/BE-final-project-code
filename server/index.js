@@ -7,76 +7,67 @@ app.use(express.json());
 import User from "./models/user.js";
 import Order from "./models/order.js";
 import Product from "./models/product.js";
-import Recyclingproduct from "./models/recycling.js";
+import Consumerproduct from "./models/recycling.js";
+import CreateProduct from "./models/createProduct.js";
 
-import Cunsumerp from "./models/cunsumer.js";
 
-app.post("/signup", async (req, res) => {
-  const { firstname,  email, mobile, address, password, roll } =
-    req.body;
 
-  const newUser = new User({
-    firstname,
-   
-    email,
-    mobile,
-    address,
-    password,
-    roll,
-  });
 
+
+// user signup 
+app.post('/signup', async (req, res) => {
+  const { name, address, mobile, email, password, gender, roll, } = req.body;
   try {
-    const saveUser = await newUser.save();
-    return res.json({
-      data: saveUser,
-      success: true,
-      message: "successfully created signup",
-    });
-  } catch (e) {
-    return res.json({
-      message: e.message,
-    });
+      const newUser = new User({
+          name,
+          address,
+          mobile,
+          email,
+          password,
+          gender,
+          roll
+
+      })
+
+      const savedUser = await newUser.save();
+
+      res.json({
+          success: true,
+          data: savedUser,
+          message: 'successfully SignUp'
+      })
+  }
+  catch (err) {
+      res.json({
+          success: false,
+          message: err.message
+      })
+
   }
 });
 
-app.get("/signup", async (req, res) => {
-  const alluser = await User.find();
-  res.json({
-    data: alluser,
-    message: "feached all user",
-  });
-});
 
-// Login
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+// user login
+app.post('/login', async (req, res) => {
+  const { email, password, roll,  } = req.body;
 
-  const loginUser = await User.findOne({
-    email: email,
-    password: password,
-  }).select("name gmail roll address");
+  const user = await User.findOne({ email, password  }).select('email name roll');
 
-  if (loginUser) {
-    return res.json({
-      success: true,
-      data: loginUser,
-      message: "login successfully",
-    });
-  } else {
-    return res.json({
-      success: false,
-      data: loginUser,
-    });
+  if (user == null) {
+      return res.json({
+          success: false,
+          message: "Login failed..!"
+      }
+      )
   }
+  res.json({
+      success: true,
+      data: user,
+      message: "Login successfully..!"
+  }
+  )
 });
 
-app.get("/login", async (req, res) => {
-  const alluser = await User.find();
-  res.json({
-    data: alluser,
-    message: "feached all user",
-  });
-});
 
 app.post("/products", async (req, res) => {
   const { name, price, productImg, description } = req.body;
@@ -224,6 +215,21 @@ app.get("/orders", async (req, res) => {
   });
 });
 
+//delete ordere 
+
+
+app.delete('/orders/id', async (req, res) => {
+  const { id } = req.params;
+
+  await Order.deleteOne({ id: id })
+
+  res.json({
+      success: true,
+      data: {},
+      message: `succesfully deleted order ${id}`
+  })
+});
+
 // GET :order/user/:id
 
 app.get("/orders/user/:id", async (req, res) => {
@@ -261,15 +267,15 @@ app.patch("/orders/status/:id", async (req, res) => {
   });
 });
 
-app.post("/api/v1/recyclingproducts", async (req, res) => {
-  const { name, recyclingproductprice, recyclingproductimg, recyclingproductquantity, recyclingproductDescription } = req.body;
+app.post("/api/v1/consumerproducts", async (req, res) => {
+  const { name, consumerproductprice, consumerproductimg, consumerproductquantity, consumerproductDescription } = req.body;
 
-  const newProduct = new Recyclingproduct({
+  const newProduct = new Consumerproduct({
     name,
-    recyclingproductimg,
-    recyclingproductprice,
-    recyclingproductquantity,
-    recyclingproductDescription,
+    consumerproductimg,
+    consumerproductprice,
+    consumerproductquantity,
+    consumerproductDescription,
   });
 
   try {
@@ -287,8 +293,8 @@ app.post("/api/v1/recyclingproducts", async (req, res) => {
   }
 });
 
-app.get("/api/v1/recyclingproducts", async (req, res) => {
-  const products = await Recyclingproduct.find();
+app.get("/api/v1/consumerproducts", async (req, res) => {
+  const products = await Consumerproduct.find();
 
   res.json({
     success: true,
@@ -298,10 +304,10 @@ app.get("/api/v1/recyclingproducts", async (req, res) => {
 });
 
 
-app.post("/cunsumerproducts", async (req, res) => {
+app.post("/api/v1/consumerproducts", async (req, res) => {
   const { name, price, productImg, quantity } = req.body;
 
-  const newProduct = new Cunsumerp({
+  const newProduct = new Consumerproduct({
     name,
     price,
     productImg,
@@ -368,6 +374,61 @@ app.get("/api/v1/certificates", async (req, res) => {
   }
 });
 
+app.post("/api/v1/createproduct", async(req,res)=>{
+  const {name,productImg,price,description,quantity}= req.body;
+ 
+  const product = new CreateProduct({
+    name:name,
+    productImg:productImg,
+    price:price,
+    description:description,
+    quantity:quantity
+  })
+
+  try {
+    const savedProduct = await product.save();
+
+    res.json({
+      success:true,
+      data: savedProduct,
+      message: "Product create successfully...",
+    });
+  } catch (err) {
+    return res.json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+app.get("/api/v1/createproduct", async(req,res)=>{
+  try{
+  const allProduct = await CreateProduct.find();
+  res.json({
+    success: true,
+    data: allProduct,
+    message: "Product find successfully",
+  });
+} catch (err) {
+  return res.json({
+    success: false,
+    message: err.message,
+  });
+}
+});
+
+app.get("/api/v1/createproduct/:_id", async (req, res) => {
+  const { _id } = req.params;
+
+  const findOneProduct = await CreateProduct.findOne({ _id: _id });
+
+  res.json({
+    data: findOneProduct,
+    message: "fetch product successfully",
+  });
+});
+
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
@@ -376,7 +437,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 const connectDB = async () => {
   const conn = mongoose.connect(process.env.MONGODB_URI);

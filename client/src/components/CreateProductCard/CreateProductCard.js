@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./ProductCard.css";
+import "./CreateProductCard.css";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ _id, name, price, productImg, description }) => {
+const CreateProductCard = ({ _id, name, price, productImg, description }) => {
   const [user, setUser] = useState();
 
   const loadUser = () => {
@@ -22,9 +22,9 @@ const ProductCard = ({ _id, name, price, productImg, description }) => {
         <p className="product-price"> ₹ {price} /-</p>
 
         <Link
-          className="button buy-now-btn"
+          className="button buy-now-btn "
           onClick={() => {
-            window.location.href = `/Buy/${_id}`;
+            window.location.href = `/CreateProductBuy/${_id}`;
           }}
         >
           Buy now
@@ -34,4 +34,4 @@ const ProductCard = ({ _id, name, price, productImg, description }) => {
   );
 };
 
-export default ProductCard;
+export default CreateProductCard;

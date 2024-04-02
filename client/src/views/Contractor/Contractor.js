@@ -43,21 +43,7 @@ function Contractor() {
           <button className='contact-now'><Link to="/contactcard" className='text-none'>Send Us Message</Link></button>
         </div>
 
-        <div className="contractor-card">
-          <img src={profilePic} className="product-image" alt="Profile" /> 
-          <h3 className='contractor-name'>Poonam Patil</h3>
-          <p className='area-name'>hadpasr It park</p>
-          <p>  <a href='tel' className='text-none' >📞 45415121512</a></p>
-          <button className='contact-now'><Link to="/contactcard"  className='text-none'>Send Us Message</Link></button>
-        </div>
-
-        <div className="contractor-card">
-          <img src={profilePic} className="product-image" alt="Profile" /> 
-          <h3 className='contractor-name'>Dnyaneshwar Patil</h3>
-          <p className='area-name'>Near pune station kali mata chauk </p>
-           <p>  <a href='tel' className='text-none' >📞 45415121512</a></p>
-          <button className='contact-now'><Link to="/contactcard" className='text-none'>Send Us Message</Link> </button>
-        </div>
+       
                   
         </div>
         <Footer />

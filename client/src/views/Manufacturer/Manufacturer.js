@@ -1,59 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Manufacturer.css";
 import Navbar from "./../../components/Navbar/Navbar";
 import Footer from "./../../components/Footer/Footer";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import ProductCard from "./../../components/ProductCard/ProductCard";
+import CreateProductCard from "../../components/CreateProductCard/CreateProductCard";
+
 
 const Manufacturer = () => {
-  const [products, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
 
-  const loadProducts = async () => {
-    const response = await axios.get("/products");
-    setProduct(response?.data?.data);
-  };
-
   useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const response = await axios.get("/api/v1/createproduct");
+        setProducts(response?.data?.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
     loadProducts();
   }, []);
 
-  const searchProduct = async () => {
-    const response = await axios.get(`/product/search?q=${search}`);
-    setProduct(response?.data?.data);
-  };
-
   useEffect(() => {
+    const searchProduct = async () => {
+      try {
+        const response = await axios.get(`/api/v1/products/search?q=${search}`);
+        setProducts(response?.data?.data);
+      } catch (error) {
+        console.error("Error searching products:", error);
+      }
+    };
+
     searchProduct();
   }, [search]);
+
   return (
     <div>
       <Navbar />
-
       <input
         type="text"
         value={search}
         className="mt-3 searchbar"
         placeholder="Search Product"
-        onChange={(e) => {
-          setSearch(e.target.value);
-        }}
+        onChange={(e) => setSearch(e.target.value)}
       />
       <div className="products-cards">
-        {products?.map((product, i) => {
-          const { _id, name, price, productImg, description } = product;
-          return (
-            <ProductCard
-              key={i}
-              name={name}
-              price={price}
-              productImg={productImg}
-              description={description}
-              _id={_id}
-            />
-          );
-        })}
+        {products.map((product) => (
+          <CreateProductCard
+            key={product._id}
+            name={product.name}
+            price={product.price}
+            productImg={product.productImg}
+            description={product.description}
+            _id={product._id}
+          />
+        ))}
       </div>
       <Footer />
     </div>

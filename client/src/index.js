@@ -17,7 +17,8 @@ import Buy from './views/Buy/Buy'
 import Orders from './views/Orders/Orders';
 import CertificateGenerator from './views/CertificateGenerator/CertificateGenerator';
 import Certificate from './views/Certificate/Certificate';
- 
+import CreateProduct from './views/CreateProduct/CreateProduct';
+ import CreateProductBuy from './views/CreateProductBuy/CreateProductBuy';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
   {
     path:'/Buy/:_id',
     element:<Buy/>
+  },
+  {
+    path:'/CreateProductBuy/:_id',
+    element:<CreateProductBuy/>
   },
   {
     path:"/orders",

@@ -1,28 +1,28 @@
 import { Schema, model } from "mongoose";
 
-const recyclingSchema = new Schema({
+const consumerSchema = new Schema({
     name:{
         type:String,
         required:true
     },
-    recyclingproductimg:{
+    consumerproductimg:{
         type:String,
         required:true
     },
-    recyclingproductprice:{
+    consumerproductprice:{
         type:String,
         required:true
     },
-    recyclingproductquantity:{
+    consumerproductquantity:{
         type:String,
         required:true
     },
-    recyclingproductDescription:{
+    consumerproductDescription:{
         type:String,
         required:true
     }
 })
 
-const Recyclingproduct = model("Recyclingproduct", recyclingSchema)
+const Consumerproduct = model("Consumerproduct", consumerSchema)
 
-export default Recyclingproduct;
+export default Consumerproduct;
